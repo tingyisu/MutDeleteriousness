@@ -1,5 +1,5 @@
 '''
-Writes commands to submit SLURM jobs to a BASH file
+Writes commands for submitting SLURM jobs to a BASH file
 ----------------------------------------------
 Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 '''

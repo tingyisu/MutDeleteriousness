@@ -1,5 +1,5 @@
 '''
-Categorize mutations based on their locations (IR, buried-NIR, or exposed-NIR)
+Categorize missense mutations based on their locations (IR, buried-NIR, or exposed-NIR)
 ----------------------------------------------
 Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 '''

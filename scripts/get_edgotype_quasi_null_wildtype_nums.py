@@ -1,5 +1,5 @@
 '''
-Categorize mutations based on their edgotypes (edgetic, quasi-null, or quasi-wildtype)
+Categorize missense mutations based on their edgotypes (edgetic, quasi-null, or quasi-wildtype)
 ----------------------------------------------
 Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 '''
