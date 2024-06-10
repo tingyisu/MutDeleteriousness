@@ -3,7 +3,7 @@
 # Please follow the steps below carefully
 # Some steps are very memory/time consuming to run and should ideally be run in parallel on a server (scripts for submitting SLURM jobs are provided for these steps).
 
-# first make sure you're in the missense_vs_nonsense_mutations directory
+# first make sure you're in the measuring_functional_impact_of_mutations directory
 # and create the following folders to store data
 mkdir data
 cd data
@@ -386,7 +386,7 @@ python3 list_ali_files_with_discrepancies_to_fix.py -s --script_dir
 # Once you've fixed the issues in the .ali files, rerun MODELLER as follows:
 python3 run_modeller_uncompleted.py -s --script_dir
 
-# ----------PREDICT MUTATION EDGOTYPES BASED ON MUTATION LOCATION, FOLDX DDG, AND RSA----------
+# ----------PREDICT EDGOTYPES OF MISSENSE MUTATIONS BASED ON MUTATION LOCATION, FOLDX DDG, AND RSA----------
 # NOTE: the following section should still be run on your server within your modeller script_dir (/home/username/projects/def-*/username/modeller)
 
 # **1. Download FoldX **
