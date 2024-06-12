@@ -119,23 +119,15 @@ def main():
 
 	interactomes = ['hiunion', 'intact']
 	mutation_data = ['clinvar', 'dbsnp']
-	dbsnp_pathogenicities = ['', 'pathogenic']
 	names = []
 
 	for interactome in interactomes:
 		for data in mutation_data:
-			if data == 'dbsnp':
-				for dbsnp_pathogenicity in dbsnp_pathogenicities:
-					if dbsnp_pathogenicity == '':
-						names.append('_'.join([interactome, data, 'missense', 'mutations']))
-					else:
-						names.append('_'.join([interactome, data, 'missense', 'mutations', 'pathogenic']))
-			else: # data == 'clinvar'
-				names.append('_'.join([interactome, data, 'missense', 'mutations']))
+			names.append('_'.join([interactome, data, 'missense', 'mutations']))
 
 
-	for name in names:
-		print(name)
+	# for name in names:
+	# 	print(name)
 
 
 	print('-----Finding quasi null, quasi wildtype based on RSA and folding DDG-----')

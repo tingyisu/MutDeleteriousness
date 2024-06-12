@@ -82,9 +82,6 @@ class MapMutation:
 			# check that ref_res at prot_res_pos matches with corresponding res in self.prot_seq_dict[prot]
 			# print(prot, prot_res_pos, len(self.prot_seq_dict[prot]), self.missense_info[i][self.header_dict['#AlleleID']])
 			prot_seq = self.prot_seq_dict[prot]
-			# print(prot_res_pos, len(prot_seq))
-			# print(prot_res_pos, len(prot_seq))
-			# print(self.missense_info[i])
 			ref_res_in_prot_seq = ''
 			diff_ref_res = False
 			if 'nonstop' not in self.mutation_name:
@@ -252,8 +249,6 @@ def main():
 	mutation_data_dir = osp.join(processed_data_dir, 'mutations')
 	data_interactome_dir = osp.join(script_dir, '..', 'data', 'processed', 'interactome')
 
-	# MAP NONSENSE AND NONSTOP MUTATIONS AS WELL???
-
 	# prot seq dicts
 	refseq_prot_seq_dict_file = osp.join(processed_data_dir, 'refseq_prot_seq_dict.pickle')
 
@@ -267,8 +262,6 @@ def main():
 
 	# lists to loop through
 	mutation_types = ['missense', 'nonstop', 'nonsense']
-	dbsnp_mutation_types = mutation_types + ['synonymous']
-	clinical_significances = ['', 'pathogenic']
 
 	print('**********ClinVar**********')
 	for mutation_type in mutation_types:
@@ -283,11 +276,7 @@ def main():
 	# for loop to go through all dbSNP mutations
 	for mutation_type in dbsnp_mutation_types:
 		for clinical_significance in clinical_significances:
-			mutation_name = ''
-			if clinical_significance == '':
-				mutation_name = '_'.join(['dbsnp', mutation_type, 'mutations'])
-			else:
-				mutation_name = '_'.join(['dbsnp', mutation_type, 'mutations', clinical_significance])
+			mutation_name = '_'.join(['dbsnp', mutation_type, 'mutations'])
 			mutation_file = osp.join(mutation_data_dir, mutation_name + '.tsv')
 			dbsnp = MapMutation(mutation_name, 'refseq', mutation_data_dir, mutation_file, refseq_prot_seq_dict_file, blast_hiunion_fasta_file, blast_intact_fasta_file, hiunion_uniprot_proteins_file, intact_uniprot_proteins_file)
 			dbsnp.map_mutation_flanking_seq_to_uniprot_all()

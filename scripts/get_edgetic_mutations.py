@@ -179,19 +179,11 @@ def main():
 
 	interactomes = ['hiunion', 'intact']
 	mutation_data = ['clinvar', 'dbsnp']
-	dbsnp_pathogenicities = ['', 'pathogenic']
 	names = []
 
 	for interactome in interactomes:
 		for data in mutation_data:
-			if data == 'dbsnp':
-				for dbsnp_pathogenicity in dbsnp_pathogenicities:
-					if dbsnp_pathogenicity == '':
-						names.append('_'.join([interactome, data, 'missense', 'mutations']))
-					else:
-						names.append('_'.join([interactome, data, 'missense', 'mutations', 'pathogenic']))
-			else: # data == 'clinvar'
-				names.append('_'.join([interactome, data, 'missense', 'mutations']))
+			names.append('_'.join([interactome, data, 'missense', 'mutations']))
 
 
 	print('-----Finding edgotypes (edgetic/non-edgetic) using FoldX binding DDG-----')

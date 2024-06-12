@@ -183,19 +183,11 @@ def main():
 
 	interactomes = ['hiunion', 'intact']
 	mutation_data = ['clinvar', 'dbsnp']
-	dbsnp_pathogenicities = ['', 'pathogenic']
 	mutation_files_list = []
 
 	for interactome in interactomes:
 		for data in mutation_data:
-			if data == 'dbsnp':
-				for dbsnp_pathogenicity in dbsnp_pathogenicities:
-					if dbsnp_pathogenicity == '':
-						mutation_files_list.append('_'.join([interactome, data, 'missense', 'mutations', 'ir.tsv']))
-					else:
-						mutation_files_list.append('_'.join([interactome, data, 'missense', 'mutations', 'pathogenic', 'ir.tsv']))
-			else: # data == 'clinvar'
-				mutation_files_list.append('_'.join([interactome, data, 'missense', 'mutations', 'ir.tsv']))
+			mutation_files_list.append('_'.join([interactome, data, 'missense', 'mutations', 'ir.tsv']))
 
 	templates = ModellerTemplates(data_dir, mutation_files_list)
 	templates.get_all_templates_mutations()

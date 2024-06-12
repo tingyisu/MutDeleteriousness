@@ -128,22 +128,13 @@ def main():
 
 	interactomes = ['hiunion', 'intact']
 	mutation_data = ['clinvar', 'dbsnp']
-	dbsnp_pathogenicities = ['', 'pathogenic']
 	mutation_types = ['missense', 'nonstop', 'nonsense']
 	mutation_files_list = []
 
 	for interactome in interactomes:
 		for data in mutation_data:
-			if data == 'clinvar':
-				for mutation_type in mutation_types:
-					mutation_files_list.append('_'.join([interactome, 'mapped', data, mutation_type, 'mutations.tsv']))
-			else: # data == 'dbsnp'
-				for dbsnp_pathogenicity in dbsnp_pathogenicities:
-					for mutation_type in mutation_types:
-						if dbsnp_pathogenicity == '':
-							mutation_files_list.append('_'.join([interactome, 'mapped', data, mutation_type, 'mutations.tsv']))
-						else:
-							mutation_files_list.append('_'.join([interactome, 'mapped', data, mutation_type,  'mutations', dbsnp_pathogenicity + '.tsv']))
+			for mutation_type in mutation_types:
+				mutation_files_list.append('_'.join([interactome, 'mapped', data, mutation_type, 'mutations.tsv']))
 							
 	r = RemoveRedundant(data_dir, final_data_dir, refseq_prot_seq_dict_pickle_file, mutation_files_list)
 	r.remove_redundant_mutations_all()

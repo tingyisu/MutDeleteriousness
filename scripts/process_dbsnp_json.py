@@ -184,23 +184,12 @@ class ProcessJson:
 									'HGVSG', 'HGVSC', 'HGVSP', 'refseq_chromosome', 'refseq_mrna', 'mrna_ref_codon', 'mrna_allele_pos', 'mrna_alt_codon', 
 									'refseq_protein', 'ref_res', 'prot_res_pos', 'alt_res','clinical_significances', 'uniprot_protein']) + '\n')
 
-			f_write_pathogenic.write('\t'.join(['ID', 'ref_allele', 'alt_allele', 'alt_frequency', 'gene_symbol', 'assembly_name', 'chromosome', 
-									'HGVSG', 'HGVSC', 'HGVSP', 'refseq_chromosome', 'refseq_mrna', 'mrna_ref_codon', 'mrna_allele_pos', 'mrna_alt_codon', 
-									'refseq_protein', 'ref_res', 'prot_res_pos', 'alt_res','clinical_significances', 'uniprot_protein']) + '\n')
-
 			f_write_nonstop.write('\t'.join(['ID', 'ref_allele', 'alt_allele', 'alt_frequency', 'gene_symbol', 'assembly_name', 'chromosome', 
 									'HGVSG', 'HGVSC', 'HGVSP', 'refseq_chromosome', 'refseq_mrna', 'mrna_ref_codon', 'mrna_allele_pos', 'mrna_alt_codon', 
 									'refseq_protein', 'ref_res', 'prot_res_pos', 'alt_res','clinical_significances', 'uniprot_protein']) + '\n')
 
-			f_write_nonstop_pathogenic.write('\t'.join(['ID', 'ref_allele', 'alt_allele', 'alt_frequency', 'gene_symbol', 'assembly_name', 'chromosome', 
-									'HGVSG', 'HGVSC', 'HGVSP', 'refseq_chromosome', 'refseq_mrna', 'mrna_ref_codon', 'mrna_allele_pos', 'mrna_alt_codon', 
-									'refseq_protein', 'ref_res', 'prot_res_pos', 'alt_res','clinical_significances', 'uniprot_protein']) + '\n')
 
 			f_write_nonsense.write('\t'.join(['ID', 'ref_allele', 'alt_allele', 'alt_frequency', 'gene_symbol', 'assembly_name', 'chromosome', 
-									'HGVSG', 'HGVSC', 'HGVSP', 'refseq_chromosome', 'refseq_mrna', 'mrna_ref_codon', 'mrna_allele_pos', 'mrna_alt_codon', 
-									'refseq_protein', 'ref_res', 'prot_res_pos', 'alt_res','clinical_significances', 'uniprot_protein']) + '\n')
-
-			f_write_nonsense_pathogenic.write('\t'.join(['ID', 'ref_allele', 'alt_allele', 'alt_frequency', 'gene_symbol', 'assembly_name', 'chromosome', 
 									'HGVSG', 'HGVSC', 'HGVSP', 'refseq_chromosome', 'refseq_mrna', 'mrna_ref_codon', 'mrna_allele_pos', 'mrna_alt_codon', 
 									'refseq_protein', 'ref_res', 'prot_res_pos', 'alt_res','clinical_significances', 'uniprot_protein']) + '\n')
 
@@ -312,30 +301,6 @@ class ProcessJson:
 																									uniprot_protein]) + '\n')
 																			f_write.flush()
 
-																		else:
-																			f_write_pathogenic.write("\t".join(['rs' + self.rs['id'], 
-																												a['ref_allele'], 
-																												a['alt_allele'], 
-																												str(a['alt_frequency']),
-																												gene_symbol,
-																												a['assembly_name'],
-																												self.chromosome, 
-																												a['HGVSG'],
-																												HGVSC,
-																												HGVSP,
-																												a['refseq_chromosome'],
-																												refseq_mrna,
-																												mrna_ref_codon,
-																												mrna_allele_pos,
-																												mrna_alt_codon,                                                                                                
-																												refseq_protein,
-																												ref_res,
-																												prot_res_pos,
-																												alt_res,
-																												a['clinical_significances'],
-																												uniprot_protein]) + '\n')
-																			f_write_pathogenic.flush() 
-
 																	# non-stop mutation
 																	elif r['protein']['sequence_ontology'][0]['name'] == 'stop_gained':
 																		if a['likely_benign']:
@@ -362,30 +327,6 @@ class ProcessJson:
 																									uniprot_protein]) + '\n')
 																			f_write_nonsense.flush()
 
-																		else:
-																			f_write_nonsense_pathogenic.write("\t".join(['rs' + self.rs['id'], 
-																												a['ref_allele'], 
-																												a['alt_allele'], 
-																												str(a['alt_frequency']),
-																												gene_symbol,
-																												a['assembly_name'],
-																												self.chromosome, 
-																												a['HGVSG'],
-																												HGVSC,
-																												HGVSP,
-																												a['refseq_chromosome'],
-																												refseq_mrna,
-																												mrna_ref_codon,
-																												mrna_allele_pos,
-																												mrna_alt_codon,                                                                                                
-																												refseq_protein,
-																												ref_res,
-																												prot_res_pos,
-																												alt_res,
-																												a['clinical_significances'],
-																												uniprot_protein]) + '\n')
-																			f_write_nonsense_pathogenic.flush() 
-
 																	elif r['protein']['sequence_ontology'][0]['name'] == 'stop_lost':
 																		if a['likely_benign']:
 																			f_write_nonstop.write("\t".join(['rs' + self.rs['id'], 
@@ -410,30 +351,6 @@ class ProcessJson:
 																									a['clinical_significances'],
 																									uniprot_protein]) + '\n')
 																			f_write_nonstop.flush()
-
-																		else:
-																			f_write_nonstop_pathogenic.write("\t".join(['rs' + self.rs['id'], 
-																												a['ref_allele'], 
-																												a['alt_allele'], 
-																												str(a['alt_frequency']),
-																												gene_symbol,
-																												a['assembly_name'],
-																												self.chromosome, 
-																												a['HGVSG'],
-																												HGVSC,
-																												HGVSP,
-																												a['refseq_chromosome'],
-																												refseq_mrna,
-																												mrna_ref_codon,
-																												mrna_allele_pos,
-																												mrna_alt_codon,                                                                                               
-																												refseq_protein,
-																												ref_res,
-																												prot_res_pos,
-																												alt_res,
-																												a['clinical_significances'],
-																												uniprot_protein]) + '\n')
-																			f_write_nonstop_pathogenic.flush()
 
 def main():
 

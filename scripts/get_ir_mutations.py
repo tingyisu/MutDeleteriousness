@@ -167,19 +167,11 @@ def main():
 
 	interactomes = ['hiunion', 'intact']
 	mutation_data = ['clinvar', 'dbsnp']
-	dbsnp_pathogenicities = ['', 'pathogenic']
 	mutation_files_list = []
 
 	for interactome in interactomes:
 		for data in mutation_data:
-			if data == 'dbsnp':
-				for dbsnp_pathogenicity in dbsnp_pathogenicities:
-					if dbsnp_pathogenicity == '':
-						mutation_files_list.append('_'.join([interactome, 'mapped', data, 'missense', 'mutations', 'nonredundant.tsv']))
-					else:
-						mutation_files_list.append('_'.join([interactome, 'mapped', data, 'missense', 'mutations', dbsnp_pathogenicity, 'nonredundant.tsv']))
-			else: # data == 'clinvar'
-				mutation_files_list.append('_'.join([interactome, 'mapped', data, 'missense', 'mutations', 'nonredundant.tsv']))
+			mutation_files_list.append('_'.join([interactome, 'mapped', data, 'missense', 'mutations', 'nonredundant.tsv']))
 
 	i = IRMutation(data_dir, final_data_dir, mutation_files_list)
 	i.get_ir_mutations_all()

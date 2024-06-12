@@ -120,14 +120,10 @@ def main():
 	data_dir = osp.join(script_dir, '..', 'data', 'processed', 'mutations')
 	dbsnp_unselected_data_dir = osp.join(data_dir, 'dbsnp_unselected')
 	mutation_types = ['dbsnp_missense_mutations', 'dbsnp_nonsense_mutations', 'dbsnp_nonstop_mutations']
-	clinical_significances = ['', 'pathogenic']
 	mutation_files_list = []
 	for mutation_type in mutation_types:
 		for clinical_significance in clinical_significances:
-			if clinical_significance == '':
-				mutation_files_list.append(osp.join(dbsnp_unselected_data_dir, '_'.join([mutation_type, 'all.tsv'])))
-			else:
-				mutation_files_list.append(osp.join(dbsnp_unselected_data_dir, '_'.join([mutation_type, clinical_significance, 'all.tsv'])))
+			mutation_files_list.append(osp.join(dbsnp_unselected_data_dir, '_'.join([mutation_type, 'all.tsv'])))
 
 
 	s = RemoveAmbiguousMutations(data_dir, mutation_files_list)
