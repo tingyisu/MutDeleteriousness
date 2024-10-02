@@ -173,11 +173,8 @@ class ProcessJson:
 		# 'test_dbsnp', 'rs396190.json.bz2'
 		with bz2.BZ2File(osp.join('refsnp-chr' + self.chromosome + '.json.bz2'), 'rb') as f_in, \
 			open(osp.join(self.data_dir, 'dbsnp_missense_mutations_chr' + self.chromosome + '.tsv'), 'w') as f_write, \
-			open(osp.join(self.data_dir, 'dbsnp_missense_mutations_pathogenic_chr' + self.chromosome + '.tsv'), 'w') as f_write_pathogenic, \
 			open(osp.join(self.data_dir, 'dbsnp_nonstop_mutations_chr' + self.chromosome + '.tsv'), 'w') as f_write_nonstop, \
-			open(osp.join(self.data_dir, 'dbsnp_nonstop_mutations_pathogenic_chr' + self.chromosome + '.tsv'), 'w') as f_write_nonstop_pathogenic, \
-			open(osp.join(self.data_dir, 'dbsnp_nonsense_mutations_chr' + self.chromosome + '.tsv'), 'w') as f_write_nonsense, \
-			open(osp.join(self.data_dir, 'dbsnp_nonsense_mutations_pathogenic_chr' + self.chromosome + '.tsv'), 'w') as f_write_nonsense_pathogenic:
+			open(osp.join(self.data_dir, 'dbsnp_nonsense_mutations_chr' + self.chromosome + '.tsv'), 'w') as f_write_nonsense:
 
 			# header line
 			f_write.write('\t'.join(['ID', 'ref_allele', 'alt_allele', 'alt_frequency', 'gene_symbol', 'assembly_name', 'chromosome', 

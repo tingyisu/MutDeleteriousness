@@ -74,10 +74,10 @@ class Mappings:
 			fasta_seqs = SeqIO.parse(f,'fasta')
 			for fasta_seq in fasta_seqs:
 				if fasta_seq.id in prot_id_seq_dict:
-					if fasta_seq.seq != prot_id_seq_dict[fasta_seq.id]:
+					if str(fasta_seq.seq) != prot_id_seq_dict[fasta_seq.id]:
 						print('Different protein sequence!!!!', fasta_seq.id)
 				else:
-					prot_id_seq_dict[fasta_seq.id] = fasta_seq.seq
+					prot_id_seq_dict[fasta_seq.id] = str(fasta_seq.seq)
 		return prot_id_seq_dict
 
 

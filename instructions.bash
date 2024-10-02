@@ -229,25 +229,19 @@ done
 # (7) Combine the dbSNP output files
 # missense mutations
 cat data/dbsnp_missense_mutations_chr1.tsv > data/dbsnp_missense_mutations_all.tsv # want the header line at the beginning of the file
-cat data/dbsnp_missense_mutations_pathogenic_chr1.tsv > data/dbsnp_missense_mutations_pathogenic_all.tsv
 # nonsense mutations
 cat data/dbsnp_nonsense_mutations_chr1.tsv > data/dbsnp_nonsense_mutations_all.tsv # want the header line at the beginning of the file
-cat data/dbsnp_nonsense_mutations_pathogenic_chr1.tsv > data/dbsnp_nonsense_mutations_pathogenic_all.tsv
 # nonstop mutations
 cat data/dbsnp_nonstop_mutations_chr1.tsv > data/dbsnp_nonstop_mutations_all.tsv # want the header line at the beginning of the file
-cat data/dbsnp_nonstop_mutations_pathogenic_chr1.tsv > data/dbsnp_nonstop_mutations_pathogenic_all.tsv
 chroms=('2' '3' '4' '5' '6' '7' '8' '9' '10' '11' '12' '13' '14' '15' '16' '17' '18' '19' '20' '21' '22' 'X' 'Y')
 for i in "${chroms[@]}"
 do
 	# missense mutations
 	awk FNR!=1 data/dbsnp_missense_mutations_chr"$i".tsv >> data/dbsnp_missense_mutations_all.tsv # skip header line
-	awk FNR!=1 data/dbsnp_missense_mutations_pathogenic_chr"$i".tsv >> data/dbsnp_missense_mutations_pathogenic_all.tsv # skip header line
 	# nonsense mutations
 	awk FNR!=1 data/dbsnp_nonsense_mutations_chr"$i".tsv >> data/dbsnp_nonsense_mutations_all.tsv # skip header line
-	awk FNR!=1 data/dbsnp_nonsense_mutations_pathogenic_chr"$i".tsv >> data/dbsnp_nonsense_mutations_pathogenic_all.tsv # skip header line
 	# nonstop mutations
 	awk FNR!=1 data/dbsnp_nonstop_mutations_chr"$i".tsv >> data/dbsnp_nonstop_mutations_all.tsv # skip header line
-	awk FNR!=1 data/dbsnp_nonstop_mutations_pathogenic_chr"$i".tsv >> data/dbsnp_nonstop_mutations_pathogenic_all.tsv # skip header line
 done
 
 # (8) Copy the output files back to your local data/processed/mutations/ directory

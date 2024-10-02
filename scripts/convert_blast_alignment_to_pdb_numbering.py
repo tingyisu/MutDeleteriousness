@@ -87,7 +87,7 @@ class Convert:
 									if prev_label_res != label_res:
 										print('Have the same auth_seq_id for different label_seq_ids!', pdb, chain, auth_res_complete, prev_label_res, label_res)
 
-					elif line.startswith('_pdbx_poly_seq_scheme.') or line.startswith('_atom_site_anisotrop.'): # end of atoms (and hetatoms) lines
+					elif line.startswith('_atom_site_anisotrop.'): # end of atoms (and hetatoms) lines; remove line.startswith('_pdbx_poly_seq_scheme.') in conditional statement?
 						break
 					else:
 						continue
