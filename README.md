@@ -1,6 +1,6 @@
-# Measuring the functional consequences of mutations using human structural interactomes
+# Measuring the deleteriousness of missense and nonsense mutations using the structurally resolved human protein interactome
 
-Code for building human structural interactomes from human binary protein-protein interactions, mapping missense & nonsense mutations to the structural interactomes, and predicting the 'edgotypes' (edge-specific or PPI-specific perturbations) of missense mutations. Such analyses allow for a comprehensive comparison of the functional implications of missense & nonsense mutations.
+Code for building structually resolved human structural interactomes from human binary protein-protein interactions, mapping missense & nonsense mutations to the structural interactomes, and predicting the 'edgotypes' (edge-specific or PPI-specific perturbations) of missense mutations. Such analyses allow for a comprehensive comparison of the functional implications and deleteriousness of missense & nonsense mutations.
 
 ## Usage
 
@@ -8,10 +8,10 @@ Python 3 is required.
 
 **1. Clone or download this repository.**
 
-**2. Navigate to the downloaded measuring_functional_impact_of_mutations folder**
+**2. Navigate to the downloaded MutDeleteriousness folder**
 
 ```bash
-$ cd measuring_functional_impact_of_mutations
+$ cd MutDeleteriousness
 ```
 
 **3. Install the Python packages listed in requirements.txt**
