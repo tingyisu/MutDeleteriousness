@@ -81,8 +81,8 @@ class Alignment:
 				f.write('#SBATCH -o run_modeller_part_' + str(i) + '.%N.%j.log' + '\n')
 				f.write('#SBATCH -e run_modeller_part_' + str(i) + '.%N.%j.log' + '\n')
 				f.write('#SBATCH --mail-type=END,FAIL' + '\n') 
-				f.write('#SBATCH --mail-user=' + self.email + '\n') # ting-yi.su@mail.mcgill.ca
-				f.write('#SBATCH --account=' + self.account + '\n') # def-yxia
+				f.write('#SBATCH --mail-user=' + self.email + '\n')
+				f.write('#SBATCH --account=' + self.account + '\n')
 				f.write('DIR=' + self.script_dir + '\n')
 				f.write('python -u run_modeller_all.py -s "$DIR" -n ' + str(i) + '\n')
 

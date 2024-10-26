@@ -82,28 +82,14 @@ class RemoveRedundant:
 			nonredundant_mutations = []
 			if 'dbsnp' in mutation_file:
 				print('-----', mutation_file, '-----')
-				if 'synonymous' in mutation_file:
-					_, dbsnp_selected_mutations = self.select_dbsnp_mutation(mutation_file_path)
-					print('# of selected mutations (one per rs, chrom_ref_alleles, chrom_alt_allele):', len(dbsnp_selected_mutations)-1)
-					
-					if 'pathogenic' not in mutation_file:
-						mutation_file_items = mutation_file.split('_')[:-1]
-						write_missense_info_to_file(dbsnp_selected_mutations, osp.join(self.final_data_dir, '_'.join(mutation_file_items + ['mutations', 'nonredundant.tsv'])))
-					else:
-						mutation_file_items = mutation_file.split('_')[:-2] + ['mutations', 'pathogenic', 'nonredundant.tsv',]
-						write_missense_info_to_file(dbsnp_selected_mutations, osp.join(self.final_data_dir, '_'.join(mutation_file_items)))
-				else:
-					header_dict, dbsnp_selected_mutations = self.select_dbsnp_mutation(mutation_file_path)
-					nonredundant_mutations = self.remove_redundant_mutations(header_dict, dbsnp_selected_mutations)
-					print('# of selected mutations (one per rs, chrom_ref_alleles, chrom_alt_allele):', len(dbsnp_selected_mutations)-1)
-					print('# of nonredundant mutations:', len(nonredundant_mutations)-1)
+				
+				header_dict, dbsnp_selected_mutations = self.select_dbsnp_mutation(mutation_file_path)
+				nonredundant_mutations = self.remove_redundant_mutations(header_dict, dbsnp_selected_mutations)
+				print('# of selected mutations (one per rs, chrom_ref_alleles, chrom_alt_allele):', len(dbsnp_selected_mutations)-1)
+				print('# of nonredundant mutations:', len(nonredundant_mutations)-1)
 
-					if 'pathogenic' not in mutation_file:
-						mutation_file_items = mutation_file.split('_')[:-1]
-						write_missense_info_to_file(nonredundant_mutations, osp.join(self.final_data_dir, '_'.join(mutation_file_items + ['mutations', 'nonredundant.tsv'])))
-					else:
-						mutation_file_items = mutation_file.split('_')[:-2] + ['mutations', 'pathogenic', 'nonredundant.tsv',]
-						write_missense_info_to_file(nonredundant_mutations, osp.join(self.final_data_dir, '_'.join(mutation_file_items)))
+				mutation_file_items = mutation_file.split('_')[:-1]
+				write_missense_info_to_file(nonredundant_mutations, osp.join(self.final_data_dir, '_'.join(mutation_file_items + ['mutations', 'nonredundant.tsv'])))
 			else:
 				print('-----', mutation_file, '-----')
 				header_dict, mutations = get_missense_info(mutation_file_path)
@@ -111,13 +97,8 @@ class RemoveRedundant:
 				print('# of mapped mutations:', len(mutations)-1)
 				print('# of nonredundant mutations:', len(nonredundant_mutations)-1)
 
-				if 'pathogenic' not in mutation_file:
-					mutation_file_items = mutation_file.split('_')[:-1]
-					write_missense_info_to_file(nonredundant_mutations, osp.join(self.final_data_dir, '_'.join(mutation_file_items + ['mutations', 'nonredundant.tsv'])))
-				else:
-					mutation_file_items = mutation_file.split('_')[:-2] + ['mutations', 'pathogenic', 'nonredundant.tsv',]
-					write_missense_info_to_file(nonredundant_mutations, osp.join(self.final_data_dir, '_'.join(mutation_file_items)))
-
+				mutation_file_items = mutation_file.split('_')[:-1]
+				write_missense_info_to_file(nonredundant_mutations, osp.join(self.final_data_dir, '_'.join(mutation_file_items + ['mutations', 'nonredundant.tsv'])))
 
 def main():
 	script_dir = osp.dirname(__file__)
