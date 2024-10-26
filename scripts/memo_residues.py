@@ -245,7 +245,7 @@ class Residues:
                                                     # ways to calculate euclidean distance
                                                     # 1. np.linalg.norm(residue1[atom1.name].get_coord() - residue2[atom2.name].get_coord())
                                                     # 2. residue1[atom1.name] - residue2[atom2.name] 
-                                                    # atom1 - atom2 < 5 --> might be faster
+                                                    # atom1 - atom2 <= 5 --> might be faster
                                                     # check distances between x, y, z coordinates
                                                     # if atom1[0] - atom2[0] > 5 
                                                     num_atoms += 1
