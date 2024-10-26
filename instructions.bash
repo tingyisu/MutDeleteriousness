@@ -3,7 +3,7 @@
 # Please follow the steps below carefully
 # Some steps are very memory/time consuming to run and should ideally be run in parallel on a server (scripts for submitting SLURM jobs are provided for these steps).
 
-# first make sure you're in the measuring_functional_impact_of_mutations directory
+# first make sure you're in the MutDeleteriousness directory
 # and create the following folders to store data
 mkdir data
 cd data
