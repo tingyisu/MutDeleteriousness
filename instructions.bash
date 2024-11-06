@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# '''
+# Instructions for running scripts in MutDeleteriousness
+# ----------------------------------------------
+# Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
+# '''
+
 # Please follow the steps below carefully
 # Some steps are very memory/time consuming to run and should ideally be run in parallel on a server (scripts for submitting SLURM jobs are provided for these steps).
 
@@ -18,6 +24,7 @@ mkdir mutations_final
 mkdir edgotypes
 mkdir edgotypes_final
 mkdir nonsense_on_si
+
 
 # ----------DOWNLOAD THE FOLLOWING DATA FILES:----------
 cd ../original
@@ -149,7 +156,7 @@ bash submit_residues_slurm_jobs.bash
 # Simply submit the uncompleted jobs again and they will continue to run from where they stopped at; resubmit as many times as needed
 sbatch _name_of_uncompleted_job.slurm # replace _name_of_uncompleted_job with the name of the job (e.g. hiunion_1)
 
-# (10) Once all SLURM jobs are complete, combine the memo files in your -o --output_directory
+# (10) Once all SLURM jobs are completed, combine the memo files in your -o --output_directory
 cd output_directory # replace with your output dir name
 cat hiunion_memo_residues_split*.tsv > hiunion_memo_residues_combined.tsv
 cat intact_memo_residues_split*.tsv > intact_memo_residues_combined.tsv # excluding those overlapping chai pairs in HI-union
@@ -315,7 +322,7 @@ conda install -c salilab modeller
 #	14. calc_rsa.py
 #	15. get_rsa_slurm_file.py
 #	16. get_quasi_null_wildtype.py
-#	167. get_quasi_null_wildtype.slurm
+#	17. get_quasi_null_wildtype.slurm
 
 # (3) CREATE A DATA DIRECTORY called 'files' folder under the 'modeller' directory on your server
 # If you're using compute canada, create the 'modeller/files' folder under your projects directory (e.g. /home/username/projects/def-*/username/modeller/files) 
