@@ -159,7 +159,7 @@ sbatch _name_of_uncompleted_job.slurm # replace _name_of_uncompleted_job with th
 # (10) Once all SLURM jobs are completed, combine the memo files in your -o --output_directory
 cd output_directory # replace with your output dir name
 cat hiunion_memo_residues_split*.tsv > hiunion_memo_residues_combined.tsv
-cat intact_memo_residues_split*.tsv > intact_memo_residues_combined.tsv # excluding those overlapping chai pairs in HI-union
+cat intact_memo_residues_split*.tsv > intact_memo_residues_combined.tsv # excluding overlapping HI-union chain pairs
 cat hiunion_memo_residues_combined.tsv intact_memo_residues_combined.tsv > memo_residues_combined.tsv # all chain pairs, need to use for IntAct
 
 # (11) Run the following python scripts to write interfacial residues found in *_memo_residues_combined.tsv to file
@@ -197,10 +197,10 @@ python3 select_pdb_structural_template.py
 python3 process_clinvar_mutations.py
 
 # **2. Download and process dbSNP mutations on your server**
-# NOTE: need to run on a server because the dbSNP data is very large
+# NOTE: need to run on a server because dbSNP data is very large (each chromosome file is tens of GB)
 
 # (1) Create a 'dbsnp' directory on your server; all downloaded & processed dbSNP data will be stored here
-# If you're using Compute Canada, create the directory your scratch directory as the dbSNP data is hundreds of GB in size
+# If you're using Compute Canada, create the directory your scratch directory as the dbSNP data is hundreds of GB total
 # replace, 'username' with your compute canada username
 cd /home/username/scratch/
 mkdir dbsnp
