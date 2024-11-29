@@ -6,7 +6,7 @@ Scripts for building structually resolved human structural interactomes from hum
 
 Python 3 is required.
 
-**1. Clone or download this repository.**
+**1. Clone or download this repository**
 
 **2. Navigate to the downloaded MutDeleteriousness folder**
 

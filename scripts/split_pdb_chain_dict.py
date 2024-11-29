@@ -10,12 +10,10 @@ import argparse
 import numpy as np
 from memo_residues import Residues
 import os.path as osp
-from simple_tools import pickle_dump
+from simple_tools import pickle_dump, pickle_load
 
 def split_pdb_chain_dict(pdb_chain_dict_file, num, num_chains):
-	pdb_chain_dict = {}
-	with open(pdb_chain_dict_file, 'rb') as fname:
-		pdb_chain_dict = pickle.load(fname)
+	pdb_chain_dict = pickle_load(pdb_chain_dict)
 
 	# split
 	fname = pdb_chain_dict_file.split('.')[0]
@@ -32,8 +30,7 @@ def split_pdb_chain_dict(pdb_chain_dict_file, num, num_chains):
 				curr_part_dict.setdefault(key, []).append(chain_pair)
 			else:
 				print('Finished saving part', str(curr_part_num+1), 'of', str(i), 'chain pairs')
-				with open(fname + '_split' + str(curr_part_num+1) + '.pickle', 'wb') as f:
-					pickle.dump(curr_part_dict, f)
+				pickle_dump(curr_part_dict, fname + '_split' + str(curr_part_num+1) + '.pickle')
 				# print(curr_part_dict.keys())
 				i = 0
 				curr_part_num += 1
@@ -50,12 +47,11 @@ def combine_pdb_chain_dict(combined_pdb_chain_dict_file, pdb_chain_dict_file_lis
 	num_chains = 0
 	combined_pdb_chain_dict = {}
 	for file in pdb_chain_dict_file_list:
-		with open(file, 'rb') as f:
-			curr_dict = pickle.load(f)
-			for key in curr_dict:
-				num_chains += len(curr_dict[key])
-				combined_pdb_chain_dict.setdefault(key, []).extend(curr_dict[key]) # add to dict
-			print('addition of file:', file, num_chains)
+		curr_dict = pickle_load(file)
+		for key in curr_dict:
+			num_chains += len(curr_dict[key])
+			combined_pdb_chain_dict.setdefault(key, []).extend(curr_dict[key]) # add to dict
+		print('addition of file:', file, num_chains)
 	pickle_dump(combined_pdb_chain_dict, combined_pdb_chain_dict_file)
 
 def main():
