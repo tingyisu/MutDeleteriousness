@@ -32,10 +32,10 @@ cd ../original
 wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping.dat.gz
 gunzip HUMAN_9606_idmapping.dat.gz
 
-# **2. RefSeqGene mappings (need for mapping mRNA accession NM_* to protein accession NP_* for mutations)** 
+# **2. RefSeqGene mappings (mapping mRNA accession NM_* to protein accession NP_* for mutations)** 
 wget ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/LRG_RefSeqGene
 
-# **3. RefSeq protein transcript sequence files**
+# **3. RefSeq protein sequence files**
 mkdir ref_seq
 cd ref_seq
 wget ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/mRNA_Prot/human.*.protein.faa.gz
@@ -61,7 +61,7 @@ wget https://ftp.wwpdb.org/pub/pdb/derived_data/pdb_seqres.txt
 # **8. File containing the resolutions of PDB structures**
 wget ftp://ftp.wwpdb.org/pub/pdb/derived_data/index/resolu.idx
 
-# **9. ClinVar (Mendelian disease-causing) mutations
+# **9. ClinVar (Mendelian disease-causing) mutations**
 wget ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz
 gunzip variant_summary.txt.gz
 
@@ -111,7 +111,7 @@ cut -d$'\t' -f 1-2 intact_blast_results_with_seq_eval-5.tsv | awk -F"\t" '!seen[
 # (13) get_auth_label_dict.py
 # (14) get_auth_label_dict.slurm
 
-# (2) CREATE AN OUTPUT DIRECTORY (-o --output_directory) called 'files' under your 'interfacial_residues' folder on your server and move the following files from data/processed/interactome there:
+# (2) CREATE AN OUTPUT DIRECTORY (-o --output_directory) called 'files' under your 'interfacial_residues' folder on your server and COPY the following files from data/processed/interactome there:
 # If you're using Compute Canada, you should create the 'interfacial_residues/files' folder within your scratch directory (e.g. /home/username/scratch/interfacial_residues/files)
 # (1) hiunion_blast_for_finding_interactions.tsv
 # (2) HI-union_unique_uniprot_pairs.pickle

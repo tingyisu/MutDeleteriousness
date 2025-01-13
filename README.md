@@ -17,7 +17,7 @@ $ cd MutDeleteriousness
 **3. Install the Python packages listed in requirements.txt**
 
 ```bash
-$ pip3 install requirements.txt
+$ pip3 install -r requirements.txt
 ```
 
 **4. Follow the instructions and run the scripts listed in instructions.bash**
