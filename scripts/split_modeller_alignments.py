@@ -11,7 +11,7 @@ import pickle
 from simple_tools import pickle_load, check_create_dir, check_exist, pickle_dump
 
 class Alignment:
-	def __init__(self, script_dir, pdb_download_dir, email, account):
+	def __init__(self, script_dir, pdb_download_dir, email_address, account):
 		self.script_dir = script_dir
 		self.data_dir = osp.join(script_dir, 'files')
 		self.alignments_dir = osp.join(script_dir, 'alignments')
@@ -19,7 +19,7 @@ class Alignment:
 		self.results_dir = osp.join(script_dir, 'results')
 		check_create_dir(self.results_dir)
 		self.pdb_download_dir = pdb_download_dir
-		self.email = email
+		self.email_address = email_address
 		self.account = account
 		self.blast_alignments = pickle_load(osp.join(self.data_dir, 'converted_blast_alignments.pickle')) 
 		self.num_alignments_per_job = 1000
@@ -81,7 +81,7 @@ class Alignment:
 				f.write('#SBATCH -o run_modeller_part_' + str(i) + '.%N.%j.log' + '\n')
 				f.write('#SBATCH -e run_modeller_part_' + str(i) + '.%N.%j.log' + '\n')
 				f.write('#SBATCH --mail-type=END,FAIL' + '\n') 
-				f.write('#SBATCH --mail-user=' + self.email + '\n')
+				f.write('#SBATCH --mail-user=' + self.email_address + '\n')
 				f.write('#SBATCH --account=' + self.account + '\n')
 				f.write('DIR=' + self.script_dir + '\n')
 				f.write('python -u run_modeller_all.py -s "$DIR" -n ' + str(i) + '\n')
@@ -91,11 +91,11 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-s', '--script_dir')  # /home/username/projects/def-*/username/modeller
 	parser.add_argument('-p', '--pdb_download_dir') # /home/username/scratch/pdb_cif
-	parser.add_argument('-e', '--email') # your email address
+	parser.add_argument('-e', '--email_address') # your email_address address
 	parser.add_argument('-a', '--account') # def-* (compute canada project allocation/group name)
 	args = parser.parse_args()
 
-	a = Alignment(args.script_dir, args.pdb_download_dir, args.email, args.account)
+	a = Alignment(args.script_dir, args.pdb_download_dir, args.email_address, args.account)
 	a.create_uniprot_ali_file()
 	a.split_blast_alignments()
 	a.create_slurm_jobs()

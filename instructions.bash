@@ -111,7 +111,7 @@ cut -d$'\t' -f 1-2 intact_blast_results_with_seq_eval-5.tsv | awk -F"\t" '!seen[
 # (13) get_auth_label_dict.py
 # (14) get_auth_label_dict.slurm
 
-# (2) CREATE AN OUTPUT DIRECTORY (-o --output_directory) called 'files' under your 'interfacial_residues' folder on your server and COPY the following files from data/processed/interactome there:
+# (2) CREATE AN OUTPUT DIRECTORY (-o or --output_directory) called 'files' under your 'interfacial_residues' folder on your server and COPY the following files from data/processed/interactome there:
 # If you're using Compute Canada, you should create the 'interfacial_residues/files' folder within your scratch directory (e.g. /home/username/scratch/interfacial_residues/files)
 # (1) hiunion_blast_for_finding_interactions.tsv
 # (2) HI-union_unique_uniprot_pairs.pickle
@@ -121,32 +121,33 @@ cut -d$'\t' -f 1-2 intact_blast_results_with_seq_eval-5.tsv | awk -F"\t" '!seen[
 # (6) intact_gene_dict_physical.pickle
 # (7) intact_id_dict_physical.pickle
 
-# (3) CREATE A PDB DIRECTORY (-d --pdb_download_path) called 'pdb_cif' to store downloaded PDB mmCIF files
+# (3) CREATE A PDB DIRECTORY (-d or --pdb_download_path) called 'pdb_cif' to store downloaded PDB mmCIF files
 # If you're using Compute Canada, you should create the 'pdb_cif' folder within your scratch directory (e.g. /home/username/scratch/pdb_cif)
 
 # the following arguments are REQUIRED (please use ABSOLUTE PATHS):
-# -o --output_directory (this is the output dir you created in step (2))
-# -d --pdb_download_path (this is the pdb dir you created in step (3))
-# -u --num_splits_for_hiunion (how many splits/jobs to create for HI-Union)
-# -i --num_splits_for_intact (how many splits/jobs to create for IntAct)
-# -n --num_days (max number of days to run each job)
-# -e --email_address (input your email address if you would like to receive emails on when a job has completed or failed)
-# -a --account (account name/compute canada group, e.g. def-*)
+# -o or --output_directory (this is the output dir you created in step (2))
+# -d or --pdb_download_path (this is the pdb dir you created in step (3))
+# -u or --num_splits_for_hiunion (how many splits/jobs to create for HI-Union)
+# -i or --num_splits_for_intact (how many splits/jobs to create for IntAct)
+# -n or --num_days (max number of days to run each job)
+# -e or --email_address (input your email address if you would like to receive emails on when a job has completed or failed)
+# -a or --account (account name/compute canada group, e.g. def-*)
 
 # run the following commands one-by-one in the script directory on your server:
 
 # (4) Find possible homologs from BLASTP alignment results
-python3 process_blast_results.py -o --output_directory 
+python3 process_blast_results.py -o <output_directory> 
 
 # (5) Get HI-union and IntAct pdb_chain_dicts (dictionaries of pairs of PDB chains) & download PDB structures in .cif (mmCIF) format
-python3 get_hiunion_pdb_chain_dict.py -d --pdb_download_path -o --output_directory
-python3 get_intact_pdb_chain_dict.py -d --pdb_download_path -o --output_directory
+python3 get_hiunion_pdb_chain_dict.py -d <pdb_download_path> -o <output_directory>
+python3 get_intact_pdb_chain_dict.py -d <pdb_download_path> -o <output_directory>
 
 # (6) Split the HI-union pdb_chain_dict into 20 jobs and the IntAct pdb_chain_dict into 50 jobs
-python3 split_pdb_chain_dict.py -o --output_directory -u 20 -i 50 # 20 splits for HI-Union, 50 for IntAct
+python3 split_pdb_chain_dict.py -o <output_directory> -u 20 -i 50 # 20 splits for HI-Union, 50 for IntAct
 
 # (7) Create SLURM job files to find interfacial residues between pairs of PDB chains
-python3 create_residues_slurm_files.py -d --pdb_download_path -o --output_directory -u 20 -i 50 -n 5 -e --email_address -a --account 
+# 20 splits for HI-Union, 50 for IntAct, run each job for 5 days
+python3 create_residues_slurm_files.py -d <pdb_download_path> -o <output_directory> -u 20 -i 50 -n 5 -e <email_address> -a <account> 
 python3 create_bash_for_submitting_residues_slurm_jobs.py -u 20 -i 50 
 
 # (8) Submit SLURM jobs
@@ -156,16 +157,16 @@ bash submit_residues_slurm_jobs.bash
 # Simply submit the uncompleted jobs again and they will continue to run from where they stopped at; resubmit as many times as needed
 sbatch _name_of_uncompleted_job.slurm # replace _name_of_uncompleted_job with the name of the job (e.g. hiunion_1)
 
-# (10) Once all SLURM jobs are completed, combine the memo files in your -o --output_directory
-cd output_directory # replace with your output dir name
+# (10) Once all SLURM jobs are completed, combine the memo files in your -o or --output_directory
+cd output_directory # replace with your <output_directory>
 cat hiunion_memo_residues_split*.tsv > hiunion_memo_residues_combined.tsv
 cat intact_memo_residues_split*.tsv > intact_memo_residues_combined.tsv # excluding overlapping HI-union chain pairs
 cat hiunion_memo_residues_combined.tsv intact_memo_residues_combined.tsv > memo_residues_combined.tsv # all chain pairs, need to use for IntAct
 
 # (11) Run the following python scripts to write interfacial residues found in *_memo_residues_combined.tsv to file
 cd ..
-python3 hiunion_write_interactions.py -o --output_directory
-python3 intact_write_interactions.py -o --output_directory
+python3 hiunion_write_interactions.py -o <output_directory>
+python3 intact_write_interactions.py -o <output_directory>
 
 # (12) Create a dictionary storing PDB auth_seq_id to label_seq_id mappings for converting auth residues to label residues
 sbatch get_auth_label_dict.slurm # change the -d (--pdb_download_path), -o (--output_directory), and sbatch --mail_user and --account arguments
@@ -251,8 +252,8 @@ do
 	awk FNR!=1 data/dbsnp_nonstop_mutations_chr"$i".tsv >> data/dbsnp_nonstop_mutations_all.tsv # skip header line
 done
 
-# (8) Copy the output files back to your local data/processed/mutations/ directory
-# create a 'dbsnp_unselected' folder under data/processed/mutations/
+# (8) Copy the output files back to your local data/processed/mutations directory
+# create a 'dbsnp_unselected' folder under data/processed/mutations
 cd data/processed/mutations
 mkdir dbsnp_unselected
 cd dbsnp_unselected
@@ -338,18 +339,18 @@ conda install -c salilab modeller
 #	6. *_ir_with_modeller_foldx_mutations.tsv
 
 # The command line arguments for the scripts in step (2) are as follows (please use FULL ABSOLUTE paths):
-# 	-s --script_dir (this is the absolute path of your 'modeller' directory where the scripts in step (2) are under)
-#	-d --data_dir (this is the absolute path for the 'modeller/files' folder where the files are stores in step (3))
-#	-p --pdb_download_dir (this the where you will be downloading your .cif files (if you don't have them already); should preferably be in scratch unless you have enough space elsewhere)
-#	-e --email (this is your email address that you want SLURM to send the progress of your jobs to)
-#	-a --account (this is your Compute Canada project resource allocation account/group name, starts with def-*)
-#	-c --scratch_dir (this is your scratch directory on Compute Canada; should be /home/username/scratch)
+# 	-s or --script_dir (this is the absolute path of your 'modeller' directory where the scripts in step (2) are under)
+#	-d or --data_dir (this is the absolute path for the 'modeller/files' folder where the files are stores in step (3))
+#	-p or --pdb_download_dir (this the wherOe you will be downloading your .cif files (if you don't have them already); should preferably be in scratch unless you have enough space elsewhere)
+#	-e or --email_address (this is your email address that you want SLURM to send the progress of your jobs to)
+#	-a or --account (this is your Compute Canada project resource allocation account/group name, starts with def-*)
+#	-c or --scratch_dir (this is your scratch directory on Compute Canada; should be /home/username/scratch)
 
 # (4) Convert BLASTP alignments to correspond with existing atoms in the mmCIF files (some atoms are not structurally resolved)
-python3 convert_blast_alignment_to_pdb_numbering.py -d --data_dir -p --pdb_download_dir
+python3 convert_blast_alignment_to_pdb_numbering.py -d <data_dir> -p <pdb_download_dir>
 
 # (5) create and split .ali alignment files up to run multiple MODELLER jobs in parallel
-python3 split_modeller_alignments.py -s --script_dir -p --pdb_download_dir -e --email -a --account
+python3 split_modeller_alignments.py -s <script_dir> -p <pdb_download_dir> -e <email_address> -a <account>
 
 # (6) Submit the run_modeller_part_*.slurm jobs created by split_modeller_alignments.py
 # replace n with the number of the last job (will be printed when you run split_modeller_alignments.py)
@@ -370,7 +371,7 @@ mv $DIR/*.pdb "$DIR"/results
 sbatch run_modeller_part_*.slurm
 
 # (9) Fix the alignment files listed when running the following script:
-python3 list_ali_files_with_discrepancies_to_fix.py -s --script_dir
+python3 list_ali_files_with_discrepancies_to_fix.py -s <script_dir>
 # These alignments have failed to produce MODELLER .pdb files or produced .pdb files with missing coordinates because:
 # 1. index issues in .ali file, possibly due to having a 'CRO' heteroatom in the mmCIF file, where the corresponding residues are 'TYG' (3 residues, so changes the indices by 2) in the PDB SeqRes and consequently the alignment also
 #    --> to fix, -2 in the start & end indices for the structure part in the .ali file
@@ -385,7 +386,7 @@ python3 list_ali_files_with_discrepancies_to_fix.py -s --script_dir
 # 5. can use the build_model function in run_modeller_uncompleted.py to figure out the issue
 # The alignment files (.ali) are located in the the 'modeller/alignments' dir
 # Once you've fixed the issues in the .ali files, rerun MODELLER as follows:
-python3 run_modeller_uncompleted.py -s --script_dir
+python3 run_modeller_uncompleted.py -s <script_dir>
 
 # ----------PREDICT EDGOTYPES OF MISSENSE MUTATIONS BASED ON MUTATION LOCATION, FOLDX DDG, AND RSA----------
 # NOTE: the following section should still be run on your server within your modeller script_dir (/home/username/projects/def-*/username/modeller)
@@ -426,7 +427,7 @@ rm -r /home/username/scratch/foldx_pssm_all
 
 # **7. Run MODELLER to build additional models needed for FoldX BuildModel**
 # these models are for IR mutations that ended up being non-edgetic
-python3 run_modeller_additional.py -s --script_dir -c --scratch_dir -p --pdb_download_dir
+python3 run_modeller_additional.py -s <script_dir> -c <scratch_dir> -p <pdb_download_dir>
 DIR=_insert_your_script_directory # e.g. DIR=/home/username/projects/def-*/username/modeller
 rm "$DIR"/*.ini "$DIR"/*.rsr "$DIR"/*.sch "$DIR"/*.D00000001 "$DIR"/*.V99990001
 mv $DIR/*.pdb "$DIR"/results
@@ -465,8 +466,8 @@ conda install -c salilab dssp
 
 # **11. Calculate the relative solvent accessbility (RSA) of the mutations**
 # using the procedure from Sydykova el al. (10.12688/f1000research.12874.2)
-cd /home/username/projects/def-*/username/modeller # go back to script_dir
-python3 get_rsa_slurm_file.py -s --script_dir -c --scratch_dir -a --acount
+cd /home/username/projects/def-*/username/modeller # go back to <script_dir>
+python3 get_rsa_slurm_file.py -s <script_dir> -c <scratch_dir> -a <acount>
 for i in calc_rsa_split_*.slurm
 do
 sbatch $i
