@@ -1,6 +1,6 @@
 # Measuring the deleteriousness of missense and nonsense mutations using the structurally resolved human protein interactome
 
-Scripts for building structually resolved human structural interactomes from human binary protein-protein interactions, mapping missense & nonsense mutations to the structural interactomes, and predicting the 'edgotypes' (edge-specific or PPI-specific perturbations) of missense mutations. Such analyses allow for a comprehensive comparison of the functional implications and deleteriousness of missense & nonsense mutations.
+Scripts for building structually resolved human structural interactomes from human binary protein-protein interactions (PPIs), mapping missense and nonsense mutations onto the structural interactomes, and predicting the 'edgotypes' (edge-specific or PPI-specific perturbations) of missense mutations. Such analyses allow for a comprehensive comparison of the functional implications and deleteriousness of missense and nonsense mutations.
 
 ## Installation/Usage
 
