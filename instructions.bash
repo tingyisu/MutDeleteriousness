@@ -465,16 +465,16 @@ done
 conda install -c salilab dssp
 
 # **11. Calculate the relative solvent accessbility (RSA) of the mutations**
-# using the procedure from Sydykova el al. (10.12688/f1000research.12874.2)
+# using the procedure from Sydykova el al., 2018 (10.12688/f1000research.12874.2)
 cd /home/username/projects/def-*/username/modeller # go back to <script_dir>
 python3 get_rsa_slurm_file.py -s <script_dir> -c <scratch_dir> -a <acount>
 for i in calc_rsa_split_*.slurm
 do
-sbatch $i
+	sbatch $i
 done
 for i in calc_rsa_additional_*.slurm
 do
-sbatch $i
+	sbatch $i
 done
 
 # **12. Categorize non-edgetic mutations as quasi-null or quasi-wildtype based on folding DDG and RSA**
@@ -492,4 +492,4 @@ python3 get_num_interfacial_buried_exposed.py
 python3 get_edgotype_quasi_null_wildtype_nums.py
 
 # **16. Reorganize and rename columns to get final files specifying both mutation locations and edgotypes**
-python get_final_mutation_location_edgotype_files.py 
+python3 get_final_mutation_location_edgotype_files.py 
