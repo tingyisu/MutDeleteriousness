@@ -32,7 +32,7 @@ cd ../original
 wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping.dat.gz
 gunzip HUMAN_9606_idmapping.dat.gz
 
-# **2. RefSeqGene mappings (mapping mRNA accession NM_* to protein accession NP_* for mutations)** 
+# **2. RefSeqGene mappings (for mutations; mapping mRNA accession NM_* to protein accession NP_*)** 
 wget ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/RefSeqGene/LRG_RefSeqGene
 
 # **3. RefSeq protein sequence files**
@@ -171,7 +171,7 @@ python3 intact_write_interactions.py -o <output_directory>
 # (12) Create a dictionary storing PDB auth_seq_id to label_seq_id mappings for converting auth residues to label residues
 sbatch get_auth_label_dict.slurm # change the -d (--pdb_download_path), -o (--output_directory), and sbatch --mail_user and --account arguments
 
-# (13) MOVE the following files back to the local ../data/processed/interactome directory, and exit out of your server
+# (13) COPY the following files back to the local ../data/processed/interactome directory, and exit out of your server
 # 1. hiunion_uniprot_pdb_chains.pickle
 # 2. intact_uniprot_pdb_chains.pickle
 # 3. hiunion_auth_label_dict.pickle
@@ -187,12 +187,12 @@ sbatch get_auth_label_dict.slurm # change the -d (--pdb_download_path), -o (--ou
 # (1) Create final interactions file (keep interactions with >=50% of interfacial residues mapping to their corresponding Uniprot proteins)
 python3 build_structural_interactome.py
 
-# (2) Select PDB structural templates for each binary interaction
+# (2) Select PDB structural template for each binary interaction
 # threshold for templates: 0.0 < PDB resolution <= 3.5 & BLASTP alignment bitscore >= 50
 python3 select_pdb_structural_template.py
 
 
-# ----------PROCESS AND MAP MISSENSE AND NONSENSE MUTATIONS TO STRUCTURAL TEMPLATES----------
+# ----------PROCESS AND MAP MISSENSE AND NONSENSE MUTATIONS ONTO STRUCTURAL TEMPLATES----------
 
 # **1. Process ClinVar mutations**
 python3 process_clinvar_mutations.py
@@ -278,10 +278,10 @@ python3 map_mutation_flanking_seq_to_uniprot.py
 # or if they're the same length, pick the first one encountered
 python3 remove_redundant_mutations.py
 
-# **5. Map nonsense mutations to the HI-union and IntAct structural interactomes**
+# **5. Map nonsense mutations onto the HI-union and IntAct structural interactomes**
 python3 get_nonsense_mutations_on_si.py 
 
-# **6. Find missense mutations that lie on interfacial residues (IR)**
+# **6. Find missense mutations in interfacial residues (IR)**
 # also removes missense mutations on proteins that do not participate in protein-protein interactions within the interactomes,
 # as well as those that do not fall within BLASTP alignments
 python3 get_ir_mutations.py
@@ -301,7 +301,7 @@ python3 get_modeller_templates_foldx_mutations.py
 # **3. Download and run MODELLER** 
 # NOTE: Please use a server for this step
 
-# (1) Install MODELLER (https://salilab.org/modeller/10.3/release.html#deb, choose either with conda or Linux distributions to run on compute canada)
+# (1) Install MODELLER (https://salilab.org/modeller/10.3/release.html#deb, choose either conda or Linux distributions if using compute canada)
 # if you have Anaconda, you can install MODELLER as follows:
 conda install -c salilab modeller
 
@@ -327,10 +327,10 @@ conda install -c salilab modeller
 
 # (3) CREATE A DATA DIRECTORY called 'files' folder under the 'modeller' directory on your server
 # If you're using compute canada, create the 'modeller/files' folder under your projects directory (e.g. /home/username/projects/def-*/username/modeller/files) 
-# Move the following files in /data/processed/interactome onto compute canada under the 'modeller/files' folder:
+# Copy the following files in /data/processed/interactome onto compute canada under the 'modeller/files' folder:
 #	1. all_blast_best_alignments.pickle
 #	2. *_selected_pdb_structural_template.pickle (* = hiunion & intact)
-# Move the following files in (/data/processed/edgotypes) onto compute canada under the 'files' folder:
+# Copy the following files in (/data/processed/edgotypes) onto compute canada under the 'files' folder:
 # 	1. all_blast_best_alignments_reduced_info.pickle
 #	2. pdb_structures_to_download.pickle
 #	3. all_modeller_templates.pickle
@@ -366,7 +366,7 @@ rm "$DIR"/*.ini "$DIR"/*.rsr "$DIR"/*.sch "$DIR"/*.D00000001 "$DIR"/*.V99990001
 mkdir results
 mv $DIR/*.pdb "$DIR"/results
 
-# (8) Run any uncompleted SLURM jobs
+# (8) Resubmit any uncompleted SLURM jobs
 # if any of the run_modeller_part_"$i".slurm were not completed in the allocated time, simply submit the .slurm job again
 sbatch run_modeller_part_*.slurm
 
@@ -421,7 +421,7 @@ done
 cd /home/username/projects/def-*/username/modeller # go back to script dir
 sbatch get_edgetic_mutations.slurm # change the -s (--script_dir), -c (--scratch_dir), and sbatch --mail_user and --account arguments
 
-# **6. remove all files within the foldx_pssm_all dir to clear up space for foldx_buildmodel_all**
+# **6. Remove all files within the foldx_pssm_all dir to clear up space for foldx_buildmodel_all**
 # NOTE: the foldx_pssm_all dir will have hundreds of thousands of folders/files and the scratch dir has a limit on the number of folders/files you can store
 rm -r /home/username/scratch/foldx_pssm_all
 
@@ -432,10 +432,10 @@ DIR=_insert_your_script_directory # e.g. DIR=/home/username/projects/def-*/usern
 rm "$DIR"/*.ini "$DIR"/*.rsr "$DIR"/*.sch "$DIR"/*.D00000001 "$DIR"/*.V99990001
 mv $DIR/*.pdb "$DIR"/results
 
-# **8. Processing additional mutations (IR mutations that are non-edgetic) to run FoldX BuildModel on**
+# **8. Process additional mutations (IR mutations that are non-edgetic) to run FoldX BuildModel on**
 python3 get_additional_foldx_buildmodel_mutations.slurm # change the -s (--script_dir), -c (--scratch_dir), -a (--account), -f (--foldx_executable_name), and sbatch --mail_user and --account arguments
 
-# **9. Run FoldX BuildModel to determine mutation induced change in protein stability/folding**
+# **9. Run FoldX BuildModel to determine mutation-induced change in protein stability/folding**
 cd /home/username/scratch/foldx_buildmodel_all
 for i in {0..n} # n is the last split_* file
 do
